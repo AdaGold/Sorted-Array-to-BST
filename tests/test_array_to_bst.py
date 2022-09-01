@@ -2,153 +2,94 @@ import pytest
 from binary_search_trees.array_to_bst import *
 
 
-def test_will_return_intersection_for_lists_of_same_length():
+def test_will_return_balanced_bst_for_odd_lengthed_list():
     # Arrange
-    node_d = Node("D")
-    node_e = Node("E")
-    node_f = Node("F")
-
-    node_x = Node("X")
-    node_y = Node("Y")
-    node_z = Node("Z")
-
-    node_one = Node("1")
-    node_two = Node("2")
-    node_three = Node("3")
-    node_one.next = node_two
-    node_two.next = node_three
-
-    # List A: ["D", "E", "F", "1", "2", "3"]
-    node_d.next = node_e
-    node_e.next = node_f
-    node_f.next = node_one
-
-    # List B: ["X", "Y", "Z", "1", "2", "3"]
-    node_x.next = node_y
-    node_y.next = node_z
-    node_z.next = node_one
-
-    head_a = node_d
-    head_b = node_x
+    arr = [5, 10, 15, 20, 25, 30, 35, 40, 45]
 
     # Act
-    answer = arr_to_bst(head_a, head_b)
+    answer = arr_to_bst(arr)
 
     # Assert
-    assert answer == node_one
+    assert answer.val is 25 and is_bst(answer) and is_balanced_tree(answer)
 
-# def test_will_return_intersection_with_lists_of_differing_lengths():
-#     # Arrange
-#     node_d = Node("D")
-#     node_e = Node("E")
-#     node_f = Node("F")
+def test_will_return_balanced_bst_for_even_lengthed_list():
+    # Arrange
+    arr = [1, 3, 9, 27, 81, 243]
 
-#     node_x = Node("X")
+    # Act
+    answer = arr_to_bst(arr)
 
-#     node_one = Node("1")
-#     node_two = Node("2")
-#     node_three = Node("3")
-#     node_one.next = node_two
-#     node_two.next = node_three
+    # Assert
+    assert is_bst(answer) and is_balanced_tree(answer)
 
-#     # List A: ["D", "E", "F", "1", "2", "3"]
-#     node_d.next = node_e
-#     node_e.next = node_f
-#     node_f.next = node_one
+def test_will_return_balanced_bst_for_long_list():
+    # Arrange
+    arr = []
+    num = 0
+    while num < 100:
+        arr.append(num)
+        num += 1
 
-#     # List B: ["X", "1", "2", "3"]
-#     node_x.next = node_one
+    # Act
+    answer = arr_to_bst(arr)
 
-#     head_a = node_d
-#     head_b = node_x
+    # Assert
+    assert is_bst(answer) and is_balanced_tree(answer)
 
-#     # Act
-#     answer = arr_to_bst(head_a, head_b)
+def test_will_return_none_for_empty_list():
+    # Arrange
+    arr = []
 
-#     # Assert
-#     assert answer == node_one
+    # Act
+    answer = arr_to_bst(arr)
 
-# def test_will_return_none_with_one_empty_list():
-#     # Arrange
-#     node_d = Node("D")
-#     node_e = Node("E")
-#     node_f = Node("F")
+    # Assert
+    assert answer is None
+    
 
-#     # List A: ["D", "E", "F"]
-#     node_d.next = node_e
-#     node_e.next = node_f
+# Below are functions used to test if the given tree is a balanced Binary Search Tree.
 
-#     # List B: [] <-- empty list
+# Returns True if the BST provided is a valid BST.
+def is_bst(root):
+    if root is None:
+        return True
 
-#     # Act
-#     answer = arr_to_bst(node_d, None)
+    left = root.left
+    if left is not None and root.val <= left.val:
+        return False
 
-#     # Assert
-#     assert answer is None
+    right = root.right
+    if right is not None and root.val >= right.val:
+        return False
 
-# def test_will_return_none_when_no_intersection():
-#     # Arrange
-#     node_d = Node("D")
-#     node_e = Node("E")
-#     node_f = Node("F")
+    return is_bst(left) and is_bst(right)
 
-#     node_x = Node("X")
-#     node_y = Node("Y")
-#     node_z = Node("Z")
+# Returns the height of a tree
+def height(root):
+    if root is None:
+        return 0
+    
+    left_height = height(root.left)
+    right_height = height(root.right)
 
-#     # List A: ["D", "E", "F"]
-#     node_d.next = node_e
-#     node_e.next = node_f
-
-#     # List B: ["X", "Y", "Z"]
-#     node_x.next = node_y
-#     node_y.next = node_z
-
-#     head_a = node_d
-#     head_b = node_x
-
-#     # Act
-#     answer = arr_to_bst(head_a, head_b)
-
-#     # Assert
-#     assert answer is None
-
-# def test_will_return_none_for_two_empty_lists():
-#     # Arrange
-
-#     # List A: [] <-- empty list
-#     # List B: [] <-- empty list
-
-#     # Act
-#     answer = arr_to_bst(None, None)
-
-#     # Assert
-#     assert answer is None
+    if left_height > right_height:
+        return left_height + 1
+    else:
+        return right_height + 1
 
 
-# def test_will_return_none_nodes_have_same_value_different_reference():
-#     #Arrange
-#     node_d1 = Node("D")
-#     node_e1 = Node("E")
-#     node_f1 = Node("F")
+# Returns True if a tree is balanced
+def is_balanced_tree(root):
+    if root is None:
+        return True
 
-#     node_c1 = Node("C")
-#     node_e2 = Node("E")
-#     node_f2 = Node("F")
+    left_height = height(root.left)
+    right_height = height(root.right)
 
-#     #List A: [d, e1, f1]
-#     node_d1.next = node_e1
-#     node_e1.next = node_f1
+    if abs(left_height - right_height) > 1:
+        return False
 
-#     #List B: [c, e2, f2]
-#     node_c1.next = node_e2
-#     node_e2.next = node_f2
+    left_check = is_balanced_tree(root.left)
+    right_check = is_balanced_tree(root.right)
 
-#     head_a = node_d1
-#     head_b = node_c1
-
-#     #Act
-#     answer = arr_to_bst(head_a, head_b)
-
-#     #Assert
-#     assert answer is None
+    return left_check and right_check

@@ -8,14 +8,13 @@ Example:
 
 `arr = [5, 10, 15, 20, 25, 30, 35, 40, 45]`
 
-Should result in a tree with the following root/height:
+should result in a tree with the following root/height:
 
 ![Balanced Binary Search Tree](images/balanced_bst.png)
 
-
 ## Hint
 
-Please note that one does not need to implement a self-balancing Binary Search Tree in order to solve this exercise. 
+Please note one is not required to implement a self-balancing Binary Search Tree in order to solve this exercise. 
 
 It is recommended to break the problem down recursively by first setting the root of the Binary Search Tree to the middle element of the array.
 
