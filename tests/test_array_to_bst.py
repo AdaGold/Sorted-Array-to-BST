@@ -10,7 +10,7 @@ def test_will_return_balanced_bst_for_odd_lengthed_list():
     answer = arr_to_bst(arr)
 
     # Assert
-    assert answer.val is 25 and is_bst(answer) and is_balanced_tree(answer)
+    assert answer.val is 25 and is_bst(answer) and is_balanced_tree(answer) and inorder(answer) == arr
 
 def test_will_return_balanced_bst_for_even_lengthed_list():
     # Arrange
@@ -20,7 +20,7 @@ def test_will_return_balanced_bst_for_even_lengthed_list():
     answer = arr_to_bst(arr)
 
     # Assert
-    assert is_bst(answer) and is_balanced_tree(answer)
+    assert is_bst(answer) and is_balanced_tree(answer) and inorder(answer) == arr
 
 def test_will_return_balanced_bst_for_long_list():
     # Arrange
@@ -34,7 +34,7 @@ def test_will_return_balanced_bst_for_long_list():
     answer = arr_to_bst(arr)
 
     # Assert
-    assert is_bst(answer) and is_balanced_tree(answer)
+    assert is_bst(answer) and is_balanced_tree(answer) and inorder(answer) == arr
 
 def test_will_return_none_for_empty_list():
     # Arrange
@@ -93,3 +93,17 @@ def is_balanced_tree(root):
     right_check = is_balanced_tree(root.right)
 
     return left_check and right_check
+
+def inorder_helper(node, values):
+    if not node:
+        return values
+    
+    inorder_helper(node.left, values)
+    values.append(node.val)
+    inorder_helper(node.right, values)
+    
+    return values
+
+def inorder(node):
+    values = []
+    return inorder_helper(node, values)
