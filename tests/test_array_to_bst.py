@@ -20,7 +20,7 @@ def test_will_return_balanced_bst_for_even_lengthed_list():
     answer = arr_to_bst(arr)
 
     # Assert
-    assert is_bst(answer) and is_balanced_tree(answer)
+    assert is_bst(answer) and is_balanced_tree(answer) 
 
 def test_will_return_balanced_bst_for_long_list():
     # Arrange
